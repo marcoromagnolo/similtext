@@ -15,3 +15,4 @@ LOG_SETTINGS = {
 
 STORAGE_DIR = "storage"
 
+OPENAI_SECRET = ""

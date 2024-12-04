@@ -5,8 +5,6 @@ import joblib
 import io
 import os
 import requests
-import json
-import db
 from settings import STORAGE_DIR, OPENAI_SECRET
 
 
