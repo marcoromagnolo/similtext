@@ -142,10 +142,10 @@ class Similarity:
                 data = {
                     "model": 'gpt-3.5-turbo',
                     "messages": [
-                            {"role": "system", "content": "You are a professional journalist and you dont want to repeat the same informations in two articles."},
+                            {"role": "system", "content": "You are a professional journalist and you have compare two articles and indicate whether they come from the same source, although the writing style may be different."},
                             {'role': 'user', 'content': f"This is the first article: {text1}."},
                             {'role': 'user', 'content': f"This is the second article: {text2}."},
-                            {'role': 'user', 'content': "Reply with 'true' if the two articles have contextual overlap by discussing the same main subject and providing the same information and details. Otherwise, reply with 'false'."}
+                            {'role': 'user', 'content': "Reply with 'true' if two articles share the same source otherwise reply with 'false'."}
                         ],
                     "temperature": 0,
                     "response_format": {"type": "text"}
