@@ -1,15 +1,9 @@
-bcrypt==4.0.1
 Flask==2.0.2
-Flask-JWT-Extended==4.5.3
-lxml==5.0.0
 mysql-connector-python==8.1.0
-python-slugify==8.0.1
 pytz==2023.3.post1
-PyJWT==2.8.0
-pillow==10.0.1
 requests==2.26.0
-scrapy==2.10.1
-schedule==1.2.1
 urllib3==1.26.7
 Werkzeug==2.2
+mysql-connector-python==8.1.0
 scikit-learn
+schedule
