@@ -146,7 +146,7 @@ def run_init():
         # Fetch the results
         posts = cursor.fetchall()
         data = [(post[0], html.unescape(w3lib.html.remove_tags(post[1]))) for post in posts]
-        s = Similarity()
+        s = Similarity(logger)
         s.build_vectorizer(data)
 
     except mysql.connector.Error as err:
