@@ -63,7 +63,7 @@ def init():
     if not isinstance(data, list):
         return "Error: Invalid data format. Expected a list of tuples or objects.", 400
 
-    s = Similarity()
+    s = Similarity(logger)
     s.build_vectorizer(data)
     return jsonify(s.get_document_ids()), 200
 
@@ -73,7 +73,7 @@ def get_list():
     """
     Get the list of documents by id
     """
-    s = Similarity()
+    s = Similarity(logger)
     return jsonify(s.get_document_ids()), 200
 
 
