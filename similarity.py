@@ -27,6 +27,14 @@ class Similarity:
         return self.page_ids
     
 
+    def get_document_scores(self, id):
+        i = 0
+        for page_id in self.page_ids:
+            if page_id == id:
+                return self.tfidf_matrix[i].toarray()
+            i += 1
+    
+
     def serialize_object(self, obj):
         """Serialize an object to binary using joblib."""
         buffer = io.BytesIO()

@@ -71,10 +71,19 @@ def init():
 @app.route('/list', methods=['GET'])
 def get_list():
     """
-    Get the list of documents by id
+    Get the list id of documents
     """
     s = Similarity(logger)
     return jsonify(s.get_document_ids()), 200
+
+
+@app.route('/scores<int:id>', methods=['GET'])
+def get_scores(id):
+    """
+    Get TF-IDF scores of documents
+    """
+    s = Similarity(logger)
+    return jsonify(s.get_document_scores(id)), 200
 
 
 @app.route('/check', methods=['POST'])
@@ -156,6 +165,7 @@ def run_init():
         if connection.is_connected():
             cursor.close()
             connection.close()
+        logger.info("Init finished")
 
 
 def run_scheduler():
