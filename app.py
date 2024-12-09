@@ -77,7 +77,7 @@ def get_list():
     return jsonify(s.get_document_ids()), 200
 
 
-@app.route('/scores<int:id>', methods=['GET'])
+@app.route('/scores/<int:id>', methods=['GET'])
 def get_scores(id):
     """
     Get TF-IDF scores of documents
