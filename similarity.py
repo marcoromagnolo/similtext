@@ -31,7 +31,9 @@ class Similarity:
         i = 0
         for page_id in self.page_ids:
             if page_id == id:
-                return self.tfidf_matrix[i].toarray()
+                tfidf_scores = self.tfidf_matrix[i].toarray()[0]
+                feature_names = self.vectorizer.get_feature_names_out()
+                return {feature_names[i]: tfidf_scores[i] for i in range(len(feature_names))}
             i += 1
     
 
