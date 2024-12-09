@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 import schedule
 import time
 import threading
+import html
+import w3lib.html
 
 
 pidman.add_pid_file("similtext.pid")
@@ -143,7 +145,7 @@ def run_init():
         
         # Fetch the results
         posts = cursor.fetchall()
-        data = [(post[0], post[1]) for post in posts]
+        data = [(post[0], html.unescape(w3lib.html.remove_tags(post[1]))) for post in posts]
         s = Similarity()
         s.build_vectorizer(data)
 
