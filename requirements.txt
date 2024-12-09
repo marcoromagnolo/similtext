@@ -2,8 +2,8 @@ Flask==2.0.2
 mysql-connector-python==8.1.0
 pytz==2023.3.post1
 requests==2.26.0
-urllib3==1.26.7
 Werkzeug==2.2
 mysql-connector-python==8.1.0
 scikit-learn
 schedule
+w3lib
