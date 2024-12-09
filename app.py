@@ -5,6 +5,11 @@ import settings
 import pidman
 import logg
 from similarity import Similarity
+import mysql.connector
+from datetime import datetime, timedelta
+import schedule
+import time
+import threading
 
 
 pidman.add_pid_file("similtext.pid")
@@ -114,8 +119,58 @@ def verify():
     return jsonify(result), 200 
 
 
+def run_init():
+    logger.info("Run Init")
+    # Calculate the date 30 days ago
+    thirty_days_ago = (datetime.now() - timedelta(days=settings.INIT_FROM_DAYS)).strftime('%Y-%m-%d %H:%M:%S')
+
+    # SQL query
+    query = """
+        SELECT id, post_content
+        FROM wp_posts
+        WHERE post_type = 'post'
+          AND post_status IN ('publish', 'future')
+          AND post_date >= %s
+    """
+
+    try:
+        # Connect to the database
+        connection = mysql.connector.connect(**settings.DB_SETTINGS)
+        cursor = connection.cursor()
+
+        # Execute the query
+        cursor.execute(query, (thirty_days_ago,))
+        
+        # Fetch the results
+        posts = cursor.fetchall()
+        data = [(post[0], post[1]) for post in posts]
+        s = Similarity()
+        s.build_vectorizer(data)
+
+    except mysql.connector.Error as err:
+        logger.error(f"Error: {err}")
+        return []
+    finally:
+        if connection.is_connected():
+            cursor.close()
+            connection.close()
+
+
+def run_scheduler():
+    logger.debug('Scheduler running')
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+
 if __name__ == '__main__':
     logger.info('Application start')
+
+    schedule.every().day.at(f"{settings.INIT_SCHEDULE_AT}").do(run_init)
+
+    # Run Flask in a Thread
+    threading.Thread(target=run_scheduler, daemon=True).start()
 
     app.run(host=settings.WEB_SETTINGS['host'],
             port=settings.WEB_SETTINGS['port'],
