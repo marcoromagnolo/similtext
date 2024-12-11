@@ -145,7 +145,7 @@ def check():
     try:
         s = Similarity(logger)
         document_id = data[0]
-        document_text = data[1]
+        document_text = html.unescape(w3lib.html.remove_tags(data[1]))
         similar_document_id = s.get_most_similar_document_id(document_id, document_text)
         logger.info(f"Page {document_id} is most similar to page {similar_document_id}")    
         return jsonify(similar_document_id), 200
@@ -169,7 +169,7 @@ def add():
 
     try:
         document_id = data[0]
-        document_text = data[1]
+        document_text = html.unescape(w3lib.html.remove_tags(data[1]))
         s = Similarity(logger)
         return jsonify(s.add_document(document_id, document_text)), 200
     except Exception as e:
@@ -190,8 +190,13 @@ def verify():
     if not isinstance(data, list):
         return "Error: Invalid data format. Expected a list of tuples or objects.", 400
     
-    result = openai.compare_texts(logger, data[0], data[1])
-    return jsonify(result), 200 
+    try:
+        document_id = data[0]
+        document_text = html.unescape(w3lib.html.remove_tags(data[1]))
+        result = openai.compare_texts(logger, document_id, document_text)
+        return jsonify(result), 200
+    except Exception as e:
+        return f"Error: {str(e)}", 500
 
 
 def run_scheduler():
