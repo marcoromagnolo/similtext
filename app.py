@@ -76,7 +76,7 @@ def init():
 
     # SQL query
     query = """
-        SELECT id, post_content
+        SELECT id, CONCAT(post_title, ' ', post_content)
         FROM wp_posts
         WHERE post_type = 'post'
           AND post_status IN ('publish', 'future')
