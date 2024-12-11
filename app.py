@@ -99,10 +99,11 @@ def init():
             ]
         s = Similarity(logger)
         s.build_vectorizer(data)
-
+        return jsonify(s.get_document_ids()), 200
+    
     except mysql.connector.Error as err:
         logger.error(f"Error: {err}")
-        return []
+        return f"Error: {str(err)}", 500
     finally:
         if connection.is_connected():
             cursor.close()
