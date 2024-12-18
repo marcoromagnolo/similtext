@@ -7,5 +7,7 @@ source ./venv/bin/activate
 # Install Python packages
 pip install -r requirements.txt
 
+chmod +x start.sh status.sh stop.sh
+
 # Create dirs
-mkdir log
+mkdir -p log
